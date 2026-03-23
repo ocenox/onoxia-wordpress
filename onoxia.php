@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: ONOXIA – KI-Chatbot
+ * Plugin Name: ONOXIA – AI Chatbot
  * Plugin URI:  https://onoxia.nz
- * Description: KI-gestützter Chat-Widget mit RAG-Wissensbasis, Live-Chat und DSGVO-Konformität. Auto-Sync für Seiten, llms.txt und Sitemap.
+ * Description: AI-powered chat widget with RAG knowledge base, live chat and GDPR compliance. Auto-sync for pages, llms.txt and sitemap.
  * Version:     1.0.0
  * Requires at least: 5.8
  * Requires PHP: 7.4
