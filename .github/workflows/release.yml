@@ -1,0 +1,44 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build plugin ZIP
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          SLUG="onoxia"
+          mkdir -p dist "${SLUG}"
+
+          # Copy only plugin files (no dev/CI files)
+          for item in admin includes languages assets onoxia.php readme.txt LICENSE; do
+            [ -e "$item" ] && cp -r "$item" "${SLUG}/"
+          done
+
+          cd dist
+          zip -r "${SLUG}-${VERSION}.zip" "../${SLUG}"
+          cd ..
+          rm -rf "${SLUG}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "ONOXIA WordPress ${{ steps.version.outputs.VERSION }}"
+          generate_release_notes: true
+          files: |
+            dist/onoxia-${{ steps.version.outputs.VERSION }}.zip
