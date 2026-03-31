@@ -70,6 +70,12 @@ class Onoxia_Admin {
         update_option('onoxia_site_uuid', $site['id'] ?? '');
         update_option('onoxia_site_name', $site['name'] ?? '');
 
+        // Cache widget_url from API (CDN support) — 24h transient
+        $widget_url = $site['widget_url'] ?? '';
+        if (!empty($widget_url)) {
+            set_transient('onoxia_widget_url', $widget_url, DAY_IN_SECONDS);
+        }
+
         wp_send_json_success([
             'name'    => $site['name'] ?? 'Unknown',
             'id'      => $site['id'] ?? '',

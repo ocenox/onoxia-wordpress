@@ -11,6 +11,7 @@ defined('ABSPATH') || exit;
 class Onoxia_Frontend {
 
     private $site_uuid;
+    private $widget_url;
 
     public function __construct() {
         $this->site_uuid = get_option('onoxia_site_uuid', '');
@@ -18,6 +19,53 @@ class Onoxia_Frontend {
         if (!empty($this->site_uuid)) {
             add_action('wp_footer', [$this, 'inject_widget']);
         }
+    }
+
+    /**
+     * Get cached site info (UUID + widget_url) with 24h transient cache.
+     * Refreshes from API on cache miss, falls back to stored values on error.
+     */
+    private function get_widget_url() {
+        if ($this->widget_url !== null) {
+            return $this->widget_url;
+        }
+
+        // Try transient cache first
+        $cached = get_transient('onoxia_widget_url');
+        if ($cached !== false) {
+            $this->widget_url = $cached;
+            return $this->widget_url;
+        }
+
+        // Cache miss — refresh from API
+        $token = get_option('onoxia_api_token', '');
+        if (!empty($token)) {
+            $api  = new Onoxia_Api($token);
+            $site = $api->get_site();
+
+            if (!is_wp_error($site)) {
+                $url = $site['widget_url'] ?? '';
+                if (!empty($url)) {
+                    set_transient('onoxia_widget_url', $url, DAY_IN_SECONDS);
+                    $this->widget_url = $url;
+
+                    // Also refresh UUID/name if changed
+                    if (!empty($site['id'])) {
+                        update_option('onoxia_site_uuid', $site['id']);
+                        $this->site_uuid = $site['id'];
+                    }
+                    if (!empty($site['name'])) {
+                        update_option('onoxia_site_name', $site['name']);
+                    }
+
+                    return $this->widget_url;
+                }
+            }
+        }
+
+        // Fallback to default
+        $this->widget_url = ONOXIA_WIDGET_URL;
+        return $this->widget_url;
     }
 
     /**
@@ -43,7 +91,7 @@ class Onoxia_Frontend {
             $attrs .= " data-context='" . esc_attr(wp_json_encode($context)) . "'";
         }
 
-        echo '<script src="' . esc_url(ONOXIA_WIDGET_URL) . '" ' . $attrs . '></script>' . "\n";
+        echo '<script src="' . esc_url($this->get_widget_url()) . '" ' . $attrs . '></script>' . "\n";
     }
 
     /**

@@ -78,7 +78,7 @@ class Onoxia_Api {
 
         $url  = ONOXIA_API_BASE . $endpoint;
         $args = [
-            'timeout' => 30,
+            'timeout' => 5,
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token,
                 'Accept'        => 'application/json',

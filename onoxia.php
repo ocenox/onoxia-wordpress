@@ -2,8 +2,8 @@
 /**
  * Plugin Name: ONOXIA – AI Chatbot
  * Plugin URI:  https://onoxia.nz
- * Description: AI-powered chat widget with RAG knowledge base, live chat and GDPR compliance. Auto-sync for pages, llms.txt and sitemap.
- * Version:     1.0.0
+ * Description: AI-powered chat widget with RAG knowledge base, live chat handover and GDPR compliance. Auto-sync for pages, llms.txt and sitemap.
+ * Version:     1.2.0
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Author:      OCENOX LTD
@@ -19,7 +19,7 @@
 
 defined('ABSPATH') || exit;
 
-define('ONOXIA_VERSION', '1.0.0');
+define('ONOXIA_VERSION', '1.2.0');
 define('ONOXIA_PLUGIN_FILE', __FILE__);
 define('ONOXIA_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ONOXIA_PLUGIN_URL', plugin_dir_url(__FILE__));

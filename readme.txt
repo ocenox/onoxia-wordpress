@@ -1,83 +1,109 @@
-=== ONOXIA - KI-Chatbot ===
+=== ONOXIA – AI Chatbot ===
 Contributors: ocenox
-Tags: chatbot, ai, live-chat, rag, woocommerce, dsgvo
+Tags: chatbot, ai, live-chat, woocommerce, knowledge-base
 Requires at least: 5.8
-Tested up to: 6.9
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-KI-gestützter Chat-Widget mit RAG-Wissensbasis, Live-Chat, DSGVO-Konformität und Auto-Sync.
+AI-powered chat widget with RAG knowledge base, live chat handover, GDPR compliance and auto-sync for pages, products and sitemaps.
 
 == Description ==
 
-ONOXIA ist ein KI-Chatbot-Widget das sich nahtlos in Ihre WordPress-Website integriert. Der Bot beantwortet Besucherfragen basierend auf Ihrer Wissensbasis (RAG) — automatisch synchronisiert aus Ihren Seiten, Beiträgen und WooCommerce-Produkten.
+ONOXIA is an AI chatbot widget that integrates seamlessly into your WordPress website. The bot answers visitor questions based on your knowledge base (RAG) — automatically synchronised from your pages, posts and WooCommerce products.
 
 **Features:**
 
-* KI-Chatbot mit RAG-Wissensbasis (Retrieval Augmented Generation)
-* Auto-Sync: Seiten und Beiträge werden automatisch zur Bot-Wissensbasis
-* WooCommerce-Integration: Produktkatalog-Sync und Produkt-Kontext
-* llms.txt und Sitemap-Import für sofortiges Website-Wissen
-* Live-Chat mit Handover an Support-Agents
-* DSGVO by Design: Keine Cookies, IP-Hashing, EU-KI-Anbieter
-* Spracheingabe (Voice-to-Text)
-* Shadow DOM: Garantiert keine CSS-Konflikte
-* Kontextsensitives RAG mit Tags und URL-Filtern
-* Mehrsprachig (DE + EN)
+* AI chatbot with RAG knowledge base (Retrieval Augmented Generation)
+* Auto-sync: pages and posts are automatically added to the bot knowledge base
+* WooCommerce integration: product catalogue sync and product context on product pages
+* llms.txt and sitemap import for instant website knowledge
+* Live chat with handover to human support agents
+* GDPR by design: no cookies, IP hashing, EU-based AI provider
+* Voice input (speech-to-text)
+* Shadow DOM: guaranteed no CSS conflicts with your theme
+* Context-sensitive RAG with tags and URL filters
+* Multilingual (15+ languages)
 
-**Was ONOXIA besonders macht:**
+**What makes ONOXIA special:**
 
-* Seiten automatisch syncen — kein manuelles Kopieren in die Wissensbasis
-* Bot kennt Ihre WooCommerce-Produkte mit Preisen und Kategorien
-* Sitemap-Navigation: Bot kann Besucher auf die richtige Seite verweisen
-* Krisenerkennung mit länderspezifischen Notrufnummern
-* Ab 15 EUR/Monat (Starter-Plan)
+* Pages sync automatically — no manual copy-pasting into the knowledge base
+* Bot knows your WooCommerce products with prices and categories
+* Sitemap navigation: bot can direct visitors to the right page
+* Crisis detection with country-specific emergency numbers
+* Starting at 15 EUR/month (Starter plan)
+
+= Third-Party Service =
+
+This plugin connects to the **ONOXIA** service ([onoxia.nz](https://onoxia.nz)) operated by OCENOX LTD, New Zealand. The following data is transmitted:
+
+* **Widget script** — A JavaScript file (`widget.js`) is loaded from ONOXIA servers (or a CDN URL provided by the API) to render the chat widget on your site.
+* **API calls** — When you configure the plugin with an API token, it communicates with the ONOXIA API (`https://onoxia.nz/api/v1/bot`) to validate your token, retrieve your site ID and widget URL, and optionally sync page/post content, llms.txt and sitemap data.
+* **Visitor context** — When a logged-in user views a page with the widget, their display name and email are passed to the widget script via a `data-context` attribute. For WooCommerce sites, product and cart information may also be included.
+
+No data is transmitted until you enter an API token and save settings. The widget script is only loaded on the frontend when a valid site UUID exists.
+
+* [ONOXIA Terms of Service](https://onoxia.nz/terms)
+* [ONOXIA Privacy Policy](https://onoxia.nz/privacy)
 
 == Installation ==
 
-1. Plugin installieren und aktivieren
-2. Unter Einstellungen → ONOXIA den API-Token eingeben
-3. Token erstellen Sie unter [onoxia.nz/app/api-tokens](https://onoxia.nz/app/api-tokens)
+1. Install and activate the plugin.
+2. Go to **Settings → ONOXIA** and enter your API token.
+3. Create a token at [onoxia.nz/app/api-tokens](https://onoxia.nz/app/api-tokens).
 
-Das Widget erscheint automatisch auf Ihrer Website.
+The chat widget appears automatically on your website once connected.
 
 == Frequently Asked Questions ==
 
-= Brauche ich einen ONOXIA-Account? =
+= Do I need an ONOXIA account? =
 
-Ja. Erstellen Sie einen kostenlosen Account auf [onoxia.nz](https://onoxia.nz) und richten Sie Ihren ersten Chatbot ein.
+Yes. Create a free account at [onoxia.nz](https://onoxia.nz) and set up your first chatbot.
 
-= Was kostet ONOXIA? =
+= How much does ONOXIA cost? =
 
-Ab 15 EUR/Monat (Starter-Plan). 14 Tage kostenlos testen.
+Starting at 15 EUR/month (Starter plan). 14-day free trial included.
 
-= Ist ONOXIA DSGVO-konform? =
+= Is ONOXIA GDPR compliant? =
 
-Ja. Keine Cookies, IP-Hashing, EU-basierter KI-Anbieter (Mistral AI), konfigurierbarer Consent-Dialog.
+Yes. No cookies, IP hashing, EU-based AI provider (Mistral AI), configurable consent dialog.
 
-= Funktioniert das mit WooCommerce? =
+= Does it work with WooCommerce? =
 
-Ja. Das Plugin erkennt WooCommerce automatisch und bietet Produkt-Sync und Produkt-Kontext an.
+Yes. The plugin detects WooCommerce automatically and offers product sync and product context features.
+
+= What external requests does this plugin make? =
+
+The plugin loads a JavaScript widget from ONOXIA servers and makes API calls to sync content. See the "Third-Party Service" section in the description for full details.
 
 == Screenshots ==
 
-1. Settings Page mit Token-Eingabe und Sync-Optionen
-2. Widget auf einer Beispielseite
-3. WooCommerce-Integration mit Produkt-Kontext
+1. Settings page with token input and sync options
+2. Chat widget on a sample page
+3. WooCommerce integration with product context
 
 == Changelog ==
 
+= 1.2.0 =
+* CDN support: widget URL from API response with 24h cache
+* API timeout reduced to 5 seconds
+* Automatic site info refresh (UUID, widget URL, site name)
+* Fallback to default widget URL if API is unreachable
+
 = 1.0.0 =
 * Initial release
-* Widget-Injection mit API-Token-Authentifizierung
-* Auto-Sync für Seiten, Beiträge und WooCommerce-Produkte
-* llms.txt und Sitemap-Import
-* Kontext-Tags und Seiteneinschränkungen
-* WooCommerce Produkt-Kontext (Name, Preis, Kategorie, Warenkorb)
+* Widget injection with API token authentication
+* Auto-sync for pages, posts and WooCommerce products
+* llms.txt and sitemap import
+* Context tags and page restrictions
+* WooCommerce product context (name, price, category, cart)
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+CDN support and improved caching. Widget URL is now fetched from the API and cached for 24 hours.
 
 = 1.0.0 =
 Initial release.
