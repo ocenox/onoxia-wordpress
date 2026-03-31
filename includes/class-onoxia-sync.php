@@ -139,6 +139,45 @@ class Onoxia_Sync {
     }
 
     /**
+     * Full sync with result message (for AJAX).
+     */
+    public function full_sync_with_result() {
+        $posts = get_posts([
+            'post_type'   => ['page', 'post'],
+            'post_status' => 'publish',
+            'numberposts' => 200,
+        ]);
+
+        $sources = [];
+        foreach ($posts as $post) {
+            $content = wp_strip_all_tags($post->post_content);
+            if (empty(trim($content))) {
+                continue;
+            }
+            $permalink  = get_permalink($post->ID);
+            $path       = wp_parse_url($permalink, PHP_URL_PATH) ?: '/';
+            $categories = wp_get_post_categories($post->ID, ['fields' => 'names']);
+            $sources[] = [
+                'name'         => $post->post_title,
+                'type'         => 'text',
+                'answer'       => "# {$post->post_title}\n\n{$content}",
+                'url_patterns' => [$path . '*'],
+                'context_tags' => !empty($categories) ? $categories : null,
+            ];
+        }
+
+        if (empty($sources)) {
+            return __('No published content found', 'onoxia');
+        }
+
+        $result = $this->api->sync_rag($sources, true);
+        if (is_wp_error($result)) {
+            return $result->get_error_message();
+        }
+        return sprintf(__('%d sources synced', 'onoxia'), count($sources));
+    }
+
+    /**
      * Full sync — push all published pages and posts.
      */
     private function full_sync() {

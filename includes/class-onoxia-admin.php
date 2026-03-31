@@ -15,6 +15,9 @@ class Onoxia_Admin {
         add_action('admin_init', [$this, 'register_settings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_styles']);
         add_action('wp_ajax_onoxia_validate_token', [$this, 'ajax_validate_token']);
+        add_action('wp_ajax_onoxia_sync_articles', [$this, 'ajax_sync_articles']);
+        add_action('wp_ajax_onoxia_sync_llms', [$this, 'ajax_sync_llms']);
+        add_action('wp_ajax_onoxia_sync_sitemap', [$this, 'ajax_sync_sitemap']);
         add_action('update_option_onoxia_api_token', [$this, 'on_token_updated'], 10, 2);
     }
 
@@ -29,7 +32,7 @@ class Onoxia_Admin {
     }
 
     public function register_settings() {
-        register_setting('onoxia_settings', 'onoxia_api_token', ['sanitize_callback' => 'sanitize_text_field']);
+        register_setting('onoxia_settings', 'onoxia_api_token', ['sanitize_callback' => [$this, 'sanitize_token']]);
         register_setting('onoxia_settings', 'onoxia_site_uuid', ['sanitize_callback' => 'sanitize_text_field']);
         register_setting('onoxia_settings', 'onoxia_site_name', ['sanitize_callback' => 'sanitize_text_field']);
         register_setting('onoxia_settings', 'onoxia_context_tags', ['sanitize_callback' => 'sanitize_text_field']);
@@ -39,6 +42,17 @@ class Onoxia_Admin {
         register_setting('onoxia_settings', 'onoxia_sync_products', ['sanitize_callback' => 'absint']);
         register_setting('onoxia_settings', 'onoxia_product_context', ['sanitize_callback' => 'absint']);
         register_setting('onoxia_settings', 'onoxia_page_restriction', ['sanitize_callback' => 'sanitize_text_field']);
+    }
+
+    /**
+     * Strip Laravel Sanctum "id|" prefix if user pastes the full token string.
+     */
+    public function sanitize_token($value) {
+        $value = sanitize_text_field($value);
+        if (preg_match('/^\d+\|(.+)$/', $value, $m)) {
+            $value = $m[1];
+        }
+        return $value;
     }
 
     public function enqueue_styles($hook) {
@@ -84,7 +98,7 @@ class Onoxia_Admin {
             wp_send_json_error('Unauthorized');
         }
 
-        $token = sanitize_text_field($_POST['token'] ?? '');
+        $token = $this->sanitize_token($_POST['token'] ?? '');
         $api   = new Onoxia_Api($token);
         $site  = $api->get_site();
 
@@ -107,5 +121,53 @@ class Onoxia_Admin {
             'id'      => $site['id'] ?? '',
             'persona' => $site['persona'] ?? 'ONOXIA',
         ]);
+    }
+
+    public function ajax_sync_articles() {
+        check_ajax_referer('onoxia_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+        if (!get_option('onoxia_sync_pages')) {
+            wp_send_json_success(['skipped' => true, 'message' => __('Disabled', 'onoxia')]);
+        }
+
+        $sync = new Onoxia_Sync();
+        $result = $sync->full_sync_with_result();
+        wp_send_json_success(['message' => $result]);
+    }
+
+    public function ajax_sync_llms() {
+        check_ajax_referer('onoxia_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+        if (!get_option('onoxia_sync_llms')) {
+            wp_send_json_success(['skipped' => true, 'message' => __('Disabled', 'onoxia')]);
+        }
+
+        $api = new Onoxia_Api();
+        $result = $api->ingest_llms(home_url('/llms.txt'));
+        if (is_wp_error($result)) {
+            wp_send_json_error($result->get_error_message());
+        }
+        wp_send_json_success(['message' => __('Imported', 'onoxia')]);
+    }
+
+    public function ajax_sync_sitemap() {
+        check_ajax_referer('onoxia_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+        if (!get_option('onoxia_sync_sitemap')) {
+            wp_send_json_success(['skipped' => true, 'message' => __('Disabled', 'onoxia')]);
+        }
+
+        $api = new Onoxia_Api();
+        $result = $api->ingest_sitemap(home_url('/wp-sitemap.xml'));
+        if (is_wp_error($result)) {
+            wp_send_json_error($result->get_error_message());
+        }
+        wp_send_json_success(['message' => __('Imported', 'onoxia')]);
     }
 }

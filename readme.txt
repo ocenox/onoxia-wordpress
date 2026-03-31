@@ -4,7 +4,7 @@ Tags: chatbot, ai, live-chat, woocommerce, knowledge-base
 Requires at least: 5.8
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,13 @@ The plugin loads a JavaScript widget from ONOXIA servers and makes API calls to 
 
 == Changelog ==
 
+= 1.2.1 =
+* Dashboard with connection status, sync overview and cron info
+* Manual sync button with progress bar and per-step log
+* Auto-fetch site UUID on token save (no extra "Test connection" needed)
+* Strip Laravel Sanctum "id|" prefix from pasted tokens
+* Cron job info box with copy-to-clipboard command
+
 = 1.2.0 =
 * CDN support: widget URL from API response with 24h cache
 * API timeout reduced to 5 seconds
@@ -101,6 +108,9 @@ The plugin loads a JavaScript widget from ONOXIA servers and makes API calls to 
 * WooCommerce product context (name, price, category, cart)
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Admin dashboard with sync panel, cron info, and improved token handling.
 
 = 1.2.0 =
 CDN support and improved caching. Widget URL is now fetched from the API and cached for 24 hours.
