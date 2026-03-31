@@ -15,6 +15,7 @@ class Onoxia_Admin {
         add_action('admin_init', [$this, 'register_settings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_styles']);
         add_action('wp_ajax_onoxia_validate_token', [$this, 'ajax_validate_token']);
+        add_action('update_option_onoxia_api_token', [$this, 'on_token_updated'], 10, 2);
     }
 
     public function add_menu() {
@@ -49,6 +50,31 @@ class Onoxia_Admin {
 
     public function render_settings_page() {
         include ONOXIA_PLUGIN_DIR . 'admin/views/settings.php';
+    }
+
+    /**
+     * Auto-fetch site info when token is saved via settings form.
+     */
+    public function on_token_updated($old_value, $new_value) {
+        $token = sanitize_text_field($new_value);
+        if (empty($token)) {
+            delete_option('onoxia_site_uuid');
+            delete_option('onoxia_site_name');
+            delete_transient('onoxia_widget_url');
+            return;
+        }
+
+        $api  = new Onoxia_Api($token);
+        $site = $api->get_site();
+
+        if (!is_wp_error($site)) {
+            update_option('onoxia_site_uuid', $site['id'] ?? '');
+            update_option('onoxia_site_name', $site['name'] ?? '');
+            $widget_url = $site['widget_url'] ?? '';
+            if (!empty($widget_url)) {
+                set_transient('onoxia_widget_url', $widget_url, DAY_IN_SECONDS);
+            }
+        }
     }
 
     public function ajax_validate_token() {
