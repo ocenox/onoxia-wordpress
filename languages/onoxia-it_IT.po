@@ -1,0 +1,128 @@
+# ONOXIA WordPress Plugin — Italian (Italy)
+# Copyright (C) 2026 OCENOX LTD
+# This file is distributed under the GPL-2.0-or-later license.
+msgid ""
+msgstr ""
+"Project-Id-Version: ONOXIA 1.0.0\n"
+"Report-Msgid-Bugs-To: dev@ocenox.com\n"
+"POT-Creation-Date: 2026-03-23 00:00+0000\n"
+"PO-Revision-Date: 2026-03-23 00:00+0000\n"
+"Last-Translator: OCENOX LTD <dev@ocenox.com>\n"
+"Language-Team: Italian <dev@ocenox.com>\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin/views/settings.php:28
+msgid "Connection"
+msgstr "Connessione"
+
+#: admin/views/settings.php:31
+msgid "API Token"
+msgstr "Token API"
+
+#: admin/views/settings.php:37
+msgid "Test connection"
+msgstr "Testare la connessione"
+
+#: admin/views/settings.php:41
+msgid "Create a token at %s."
+msgstr "Crei un token su %s."
+
+#: admin/views/settings.php:52
+msgid "Connected:"
+msgstr "Connesso:"
+
+#: admin/views/settings.php:61
+msgid "Auto Knowledge Import"
+msgstr "Importazione automatica delle conoscenze"
+
+#: admin/views/settings.php:62
+msgid "The bot automatically learns the content of your website."
+msgstr "Il bot apprende automaticamente il contenuto del Suo sito web."
+
+#: admin/views/settings.php:65
+msgid "Sync pages"
+msgstr "Sincronizzare le pagine"
+
+#: admin/views/settings.php:69
+msgid "Automatically sync pages and posts as RAG sources (on save/delete)"
+msgstr "Sincronizzare automaticamente pagine e articoli come fonti RAG (al salvataggio/eliminazione)"
+
+#: admin/views/settings.php:74
+msgid "Import llms.txt"
+msgstr "Importare llms.txt"
+
+#: admin/views/settings.php:78
+msgid "Import llms.txt from website daily"
+msgstr "Importare quotidianamente il file llms.txt dal sito web"
+
+#: admin/views/settings.php:83
+msgid "Sitemap navigation"
+msgstr "Navigazione della mappa del sito"
+
+#: admin/views/settings.php:87
+msgid "Import sitemap structure daily (bot can link to pages)"
+msgstr "Importare quotidianamente la struttura della mappa del sito (il bot può rimandare alle pagine)"
+
+#: admin/views/settings.php:100
+msgid "Sync products"
+msgstr "Sincronizzare i prodotti"
+
+#: admin/views/settings.php:104
+msgid "Sync products as RAG sources (bot can answer pricing questions)"
+msgstr "Sincronizzare i prodotti come fonti RAG (il bot può rispondere a domande sui prezzi)"
+
+#: admin/views/settings.php:109
+msgid "Product context"
+msgstr "Contesto prodotto"
+
+#: admin/views/settings.php:113
+msgid "Automatically send product name, price and category as context on product pages"
+msgstr "Inviare automaticamente il nome del prodotto, il prezzo e la categoria come contesto nelle pagine prodotto"
+
+#: admin/views/settings.php:123
+msgid "Widget Settings"
+msgstr "Impostazioni del widget"
+
+#: admin/views/settings.php:126
+msgid "Context tags"
+msgstr "Tag di contesto"
+
+#: admin/views/settings.php:131
+msgid "Comma-separated tags for context-sensitive RAG (optional)."
+msgstr "Tag separati da virgole per RAG contestuale (facoltativo)."
+
+#: admin/views/settings.php:135
+msgid "Page restriction"
+msgstr "Restrizione di pagina"
+
+#: admin/views/settings.php:141
+msgid "\"all\" = everywhere. Or URL patterns: /shop/*, /contact, !/admin*"
+msgstr "\"all\" = ovunque. Oppure modelli di URL: /shop/*, /contatto, !/admin*"
+
+#: admin/views/settings.php:146
+msgid "Save settings"
+msgstr "Salvare le impostazioni"
+
+#: admin/views/settings.php:156
+msgid "Please enter a token."
+msgstr "Inserisca un token."
+
+#: admin/views/settings.php:160
+msgid "Testing connection..."
+msgstr "Test della connessione in corso..."
+
+#: admin/views/settings.php:174
+msgid "Error:"
+msgstr "Errore:"
+
+#: admin/views/settings.php:175
+msgid "Unknown error"
+msgstr "Errore sconosciuto"
+
+#: admin/views/settings.php:180
+msgid "Connection error."
+msgstr "Errore di connessione."
